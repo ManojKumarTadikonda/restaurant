@@ -16,7 +16,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.3'
+          channel: 'stable'
       - name: Accept Android SDK Licenses and Install NDK
         run: |
           export ANDROID_SDK_ROOT=$ANDROID_HOME
