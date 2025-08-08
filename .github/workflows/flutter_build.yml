@@ -3,6 +3,8 @@ name: Build Flutter APK
 on:
   push:
     branches: [ main ]
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -47,4 +49,6 @@ jobs:
         with:
           artifacts: build/app/outputs/flutter-apk/app-release.apk
           tag: v${{ env.VERSION }}
+          name: "Release v${{ env.VERSION }}"
+          body: "Automated release for version ${{ env.VERSION }}"
           token: ${{ secrets.GITHUB_TOKEN }}
