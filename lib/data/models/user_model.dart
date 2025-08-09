@@ -3,14 +3,14 @@ class UserModel {
   final String message;
   final String userId;
   final String role;
-  final String accessToken;
+  final String accesstoken;
 
   UserModel({
     required this.status,
     required this.message,
     required this.userId,
     required this.role,
-    required this.accessToken,
+    required this.accesstoken,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -19,7 +19,7 @@ class UserModel {
       message: json['message'],
       userId: json['userid'],
       role: json['role'],
-      accessToken: json['accesstoken'],
+      accesstoken: json['accesstoken'],
     );
   }
 
@@ -29,7 +29,7 @@ class UserModel {
       'message': message,
       'userid': userId,
       'role': role,
-      'accesstoken': accessToken,
+      'accesstoken': accesstoken,
     };
   }
 }

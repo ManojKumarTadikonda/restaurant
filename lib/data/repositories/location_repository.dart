@@ -30,45 +30,54 @@ class LocationRepository {
 
   Future<String> getAddressFromLatLng(double lat, double lng) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
-     if (placemarks.isNotEmpty) {
-    final place = placemarks.first;
-     final city = place.locality?.isNotEmpty == true
+    if (placemarks.isNotEmpty) {
+      final place = placemarks.first;
+      final city = place.locality?.isNotEmpty == true
           ? place.locality
           : place.subAdministrativeArea?.isNotEmpty == true
-              ? place.subAdministrativeArea
-              : place.administrativeArea;
-    return '$city'; } else {
+          ? place.subAdministrativeArea
+          : place.administrativeArea;
+      return '$city';
+    } else {
       return 'Unknown City';
     }
   }
 
-  Future<void> sendLocationToBackend({
+  Future<bool> sendLocationToBackend({
     required double lat,
     required double lng,
     required String address,
   }) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('accessToken') ?? '';
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('accesstoken') ?? ''; 
 
-      final url = Uri.parse('$baseUrl/location'); 
-      print('Sending location: Lat: $lat, Lng: $lng, Address: $address');
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode({"lat": lat, "lng": lng, "address": address}),
+    if (token == null || token.isEmpty) {
+      print("No token found in SharedPreferences");
+      return false;
+    }
+    print("Token found: $token");
+    print("Sending location: lat=$lat, lng=$lng, address=$address");
+    final response = await http.post(
+      Uri.parse('$baseUrl/location'),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "token": token,
+      },
+      body: jsonEncode({
+        "lat": lat,
+        "lng": lng,
+        "address": address,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      print(
+        "Error sending location: ${response.statusCode} - ${response.body}",
       );
-
-      if (response.statusCode == 200) {
-        print('Location sent successfully: ${response.body}');
-      } else {
-        print('Failed to send location: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error sending location: $e');
+      return false;
     }
   }
 }

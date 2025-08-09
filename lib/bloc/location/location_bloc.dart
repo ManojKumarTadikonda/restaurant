@@ -33,4 +33,5 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       }
     });
   }
+  
 }

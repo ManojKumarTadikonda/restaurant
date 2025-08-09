@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant/bloc/auth/auth_block.dart';
+import 'package:restaurant/bloc/cities/city_bloc.dart';
+import 'package:restaurant/bloc/cities/city_event.dart';
 import 'package:restaurant/bloc/location/location_bloc.dart';
 import 'package:restaurant/data/repositories/auth_repository.dart';
+import 'package:restaurant/data/repositories/cities_location_repository.dart';
 import 'package:restaurant/data/repositories/location_repository.dart';
 import 'package:restaurant/presentation/screens/location_screen.dart';
 import 'package:restaurant/presentation/screens/login_screen.dart';
@@ -16,6 +19,7 @@ void main() {
         BlocProvider(
           create: (_) => AuthBloc(AuthRepository()),
         ),
+        BlocProvider(create: (_) => CityBloc(CityRepository())..add(LoadCities()),),
         BlocProvider(
       create: (_) => LocationBloc(LocationRepository()),
     ),

@@ -16,3 +16,4 @@ class LocationError extends LocationState {
   final String error;
   LocationError(this.error);
 }
+
