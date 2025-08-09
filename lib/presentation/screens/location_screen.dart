@@ -29,7 +29,7 @@ class _LocationScreenState extends State<LocationScreen> {
             builder: (_) => const Center(child: CircularProgressIndicator()),
           );
         } else if (state is LocationLoaded) {
-          Navigator.pop(context); // close loader
+          Navigator.pop(context);
           final locationRepo = LocationRepository();
           final success=await locationRepo.sendLocationToBackend(
             lat: state.latitude,
@@ -44,7 +44,7 @@ class _LocationScreenState extends State<LocationScreen> {
             );
           }
         } else if (state is LocationError) {
-          Navigator.pop(context); // dismiss loader
+          Navigator.pop(context);
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.error)));
@@ -140,7 +140,7 @@ class _LocationScreenState extends State<LocationScreen> {
                           SizedBox(
                             height:
                                 MediaQuery.of(context).size.height *
-                                0.5, // ✅ half screen height
+                                0.5, 
                             child: Scrollbar(
                               controller: _cityScrollController,
                               thumbVisibility: true,
@@ -185,7 +185,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                                 LocationRepository();
 
                                             try {
-                                              // ✅ Await backend call
+                                              
                                               final success = await locationRepo
                                                   .sendLocationToBackend(
                                                     lat: city.lat,
